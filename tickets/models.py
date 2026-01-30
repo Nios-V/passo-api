@@ -10,6 +10,8 @@ class Event(models.Model):
     date = models.DateTimeField()
     location = models.CharField(max_length=200)
     capacity = models.PositiveIntegerField()
+    organizer = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='organized_events', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

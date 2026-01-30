@@ -7,18 +7,26 @@ from .service import TicketService
 from tickets.filters import EventFilter
 from .models import Event
 from .serializer import EventSerializer, ReservationRequestSerializer, TicketSerializer
+from .permissions import IsOrganizer, IsOwnerOrReadOnly
 
 
-class EventListCreateView(generics.ListCreateAPIView):
+class EventListView(generics.ListAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = EventFilter
 
 
+class EventCreateView(generics.CreateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    permission_classes = [IsOrganizer]
+
+
 class EventRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    permission_classes = [IsOwnerOrReadOnly]
 
 
 class TicketReservationView(APIView):
